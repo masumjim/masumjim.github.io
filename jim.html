@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abdullah Al Masum · Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    /* ── variables ── */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --bg: #0b1120;
+      --surface: #141e33;
+      --surface-2: #1a2a45;
+      --border: rgba(255,255,255,0.06);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56,189,248,0.3);
+      --gradient: linear-gradient(135deg, #38bdf8, #818cf8);
+      --shadow: 0 25px 50px -12px rgba(0,0,0,0.8);
+      --radius: 20px;
+      --transition: 0.4s cubic-bezier(0.4,0,0.2,1);
+      --hero-bg: url('https://assets.about.me/background/users/j/i/m/jim.masum_gmail.com_1466748153_07.jpg');
+    }
+    [data-theme="light"] {
+      --bg: #f0f4f8;
+      --surface: #ffffff;
+      --surface-2: #e8edf3;
+      --border: rgba(0,0,0,0.06);
+      --text: #0f172a;
+      --text-muted: #475569;
+      --accent: #2563eb;
+      --accent-glow: rgba(37,99,235,0.15);
+      --shadow: 0 25px 50px -12px rgba(0,0,0,0.15);
+      --hero-bg: url('https://assets.about.me/background/users/j/i/m/jim.masum_gmail.com_1466748153_07.jpg');
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; transition: var(--transition); }
+    a:hover { opacity:0.8; }
+    .container { max-width:1200px; margin:0 auto; }
+    ::-webkit-scrollbar { width:8px; }
+    ::-webkit-scrollbar-track { background:var(--bg); }
+    ::-webkit-scrollbar-thumb { background:var(--accent); border-radius:10px; }
+    .glass {
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      transition: background var(--transition), border var(--transition);
+    }
+    .section-title {
+      font-size:2rem; font-weight:800; margin-bottom:2rem;
+      display:flex; align-items:center; gap:14px; letter-spacing:-0.02em;
+    }
+    .section-title i {
+      color:var(--accent); font-size:1.6rem; width:40px; text-align:center;
+      background:var(--accent-glow); padding:8px; border-radius:12px;
+    }
+
+    /* ── header ── */
+    .top-header {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:16px 28px; margin-bottom:32px;
+      position:sticky; top:20px; z-index:999;
+      background:var(--surface); backdrop-filter:blur(16px);
+      border:1px solid var(--border); border-radius:60px;
+      box-shadow:var(--shadow);
+      transition: background var(--transition), border var(--transition);
+    }
+    .logo {
+      font-weight:800; font-size:1.2rem; letter-spacing:-0.03em;
+      background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .nav-links { display:flex; gap:28px; align-items:center; list-style:none; }
+    .nav-links a {
+      color:var(--text-muted); font-weight:500; font-size:0.85rem;
+      transition:var(--transition); position:relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px;
+      background:var(--gradient); transition:var(--transition);
+    }
+    .nav-links a:hover { color:var(--text); }
+    .nav-links a:hover::after { width:100%; }
+    .nav-links a.active { color:var(--accent); }
+    .theme-toggle {
+      background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+      width:40px; height:40px; border-radius:40px; display:flex; align-items:center; justify-content:center;
+      cursor:pointer; font-size:1.1rem; transition:var(--transition);
+    }
+    .theme-toggle:hover { background:var(--accent-glow); color:var(--accent); }
+
+    /* ── hero ── */
+    .hero {
+      display:grid; grid-template-columns:1fr 1.2fr; gap:40px;
+      padding:40px 32px; margin-bottom:40px;
+      align-items:center; position:relative; overflow:hidden;
+      background-image:var(--hero-bg); background-size:cover; background-position:center;
+      background-blend-mode:overlay; background-color:rgba(11,17,32,0.65);
+      border-radius:var(--radius); box-shadow:var(--shadow);
+      min-height:400px;
+    }
+    [data-theme="light"] .hero { background-color:rgba(240,244,248,0.8); }
+    .hero::before {
+      content:''; position:absolute; top:-40%; right:-20%;
+      width:500px; height:500px;
+      background:radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      border-radius:50%; pointer-events:none; opacity:0.5;
+    }
+    .hero-left { position:relative; z-index:2; }
+    .avatar {
+      width:120px; height:120px; border-radius:50%; overflow:hidden;
+      box-shadow:0 0 0 4px rgba(56,189,248,0.3), 0 0 40px var(--accent-glow);
+      margin-bottom:20px; flex-shrink:0;
+      border:3px solid rgba(255,255,255,0.15);
+      transition:var(--transition);
+    }
+    .avatar:hover { transform:scale(1.05); box-shadow:0 0 0 6px rgba(56,189,248,0.4), 0 0 60px var(--accent-glow); }
+    .avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+    .hero-left h1 { font-size:2.8rem; font-weight:900; letter-spacing:-0.03em; line-height:1.1; }
+    .hero-left h1 span { background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .hero-left .tagline { color:var(--accent); font-weight:600; font-size:1.1rem; margin-top:6px; }
+    .hero-left .bio { color:var(--text-muted); margin-top:16px; max-width:90%; font-size:0.98rem; }
+    .hero-contact {
+      display:flex; flex-wrap:wrap; gap:16px 28px; margin-top:24px;
+    }
+    .hero-contact a {
+      color:var(--text-muted); display:flex; align-items:center; gap:10px; font-size:0.9rem;
+    }
+    .hero-contact a:hover { color:var(--accent); }
+    .hero-contact i { color:var(--accent); width:20px; }
+    .hero-right {
+      display:grid; grid-template-columns:1fr 1fr; gap:16px; position:relative; z-index:2;
+    }
+    .stat-card {
+      background:var(--surface-2); padding:20px 16px; border-radius:16px;
+      text-align:center; border:1px solid var(--border);
+      transition:var(--transition);
+    }
+    .stat-card:hover { transform:translateY(-4px); border-color:var(--accent); box-shadow:0 8px 30px var(--accent-glow); }
+    .stat-number {
+      font-size:2.4rem; font-weight:900;
+      background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      line-height:1;
+    }
+    .stat-label { font-size:0.8rem; color:var(--text-muted); font-weight:500; margin-top:4px; }
+
+    /* ── about ── */
+    .about-card { padding:28px 32px; margin-bottom:40px; border-left:4px solid var(--accent); }
+    .about-card p { color:var(--text-muted); font-size:1rem; max-width:850px; }
+
+    /* ── timeline ── */
+    .timeline { position:relative; padding-left:30px; margin-top:10px; }
+    .timeline::before {
+      content:''; position:absolute; left:8px; top:8px; bottom:8px; width:3px;
+      background:var(--accent-glow); border-radius:10px;
+    }
+    .timeline-item { position:relative; margin-bottom:32px; padding-left:28px; }
+    .timeline-item::before {
+      content:''; position:absolute; left:-26px; top:8px;
+      width:14px; height:14px; border-radius:50%;
+      background:var(--gradient); border:3px solid var(--bg);
+      box-shadow:0 0 0 4px var(--accent-glow);
+      transition:var(--transition);
+    }
+    .timeline-item:hover::before { transform:scale(1.2); }
+    .timeline-item .card {
+      background:var(--surface-2); padding:20px 24px; border-radius:16px;
+      border:1px solid var(--border); transition:var(--transition);
+    }
+    .timeline-item .card:hover { border-color:var(--accent); transform:translateX(6px); }
+    .timeline-item .card-header {
+      display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:4px;
+    }
+    .timeline-item .card-header h3 { font-size:1.1rem; font-weight:700; }
+    .timeline-item .company { color:var(--accent); font-weight:600; font-size:0.9rem; }
+    .timeline-item .date { color:var(--text-muted); font-size:0.8rem; font-weight:500; }
+    .timeline-item ul { list-style:none; margin-top:8px; }
+    .timeline-item ul li {
+      padding:3px 0 3px 22px; position:relative; font-size:0.9rem; color:var(--text-muted);
+    }
+    .timeline-item ul li::before { content:'▹'; position:absolute; left:0; color:var(--accent); font-weight:700; }
+
+    /* ── skills ── */
+    .skills-grid { display:grid; grid-template-columns:1.2fr 0.8fr; gap:28px; margin-bottom:40px; }
+    .skill-category { margin-bottom:22px; }
+    .skill-category .label {
+      display:flex; justify-content:space-between; font-weight:500; font-size:0.9rem; margin-bottom:4px;
+    }
+    .skill-category .label span:last-child { color:var(--accent); font-weight:700; }
+    .progress-track {
+      width:100%; height:8px; background:var(--surface-2); border-radius:20px;
+      overflow:hidden; border:1px solid var(--border);
+    }
+    .progress-fill {
+      height:100%; background:var(--gradient); border-radius:20px;
+      width:0%; transition:width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .chart-container {
+      background:var(--surface-2); padding:20px; border-radius:16px;
+      border:1px solid var(--border); height:fit-content;
+    }
+    .chart-container canvas { max-height:220px; max-width:100%; }
+
+    /* ── projects ── */
+    .project-grid {
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:24px; margin-bottom:40px;
+    }
+    .project-card {
+      background:var(--surface-2); padding:22px 20px; border-radius:16px;
+      border:1px solid var(--border); transition:var(--transition); cursor:default;
+    }
+    .project-card:hover {
+      transform:translateY(-8px) scale(1.01);
+      border-color:var(--accent); box-shadow:0 12px 40px var(--accent-glow);
+    }
+    .project-card h4 { font-size:1rem; margin-bottom:4px; }
+    .project-card .tech { font-size:0.75rem; color:var(--text-muted); display:block; margin-bottom:8px; }
+    .project-card p { font-size:0.9rem; color:var(--text-muted); }
+
+    /* ── certs ── */
+    .cert-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-bottom:40px; }
+    .cert-list {
+      background:var(--surface-2); padding:20px 24px; border-radius:16px;
+      border:1px solid var(--border);
+    }
+    .cert-item {
+      display:flex; justify-content:space-between; padding:8px 0;
+      border-bottom:1px solid var(--border); font-size:0.9rem;
+    }
+    .cert-item:last-child { border-bottom:0; }
+    .cert-item .year { color:var(--text-muted); font-size:0.8rem; background:var(--bg); padding:0 12px; border-radius:30px; }
+    .lang-bars {
+      background:var(--surface-2); padding:20px 24px; border-radius:16px;
+      border:1px solid var(--border);
+    }
+    .lang-item {
+      display:flex; align-items:center; gap:16px; margin-bottom:12px;
+    }
+    .lang-item .name { font-weight:600; min-width:70px; }
+    .lang-item .bar { flex:1; height:6px; background:var(--bg); border-radius:20px; overflow:hidden; }
+    .lang-item .bar .fill { height:100%; background:var(--gradient); border-radius:20px; width:0%; transition:width 1s ease; }
+    .lang-item .level { color:var(--text-muted); font-size:0.8rem; min-width:70px; text-align:right; }
+
+    /* ── contact ── */
+    .contact-section { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:40px; }
+    .contact-form {
+      background:var(--surface-2); padding:28px 30px; border-radius:16px;
+      border:1px solid var(--border);
+    }
+    .contact-form h3 { font-size:1.2rem; margin-bottom:6px; }
+    .contact-form .sub { color:var(--text-muted); font-size:0.9rem; margin-bottom:20px; }
+    .form-group { margin-bottom:18px; }
+    .form-group label { display:block; font-weight:600; font-size:0.85rem; margin-bottom:4px; color:var(--text-muted); }
+    .form-group input, .form-group textarea {
+      width:100%; padding:12px 16px; border-radius:12px;
+      border:1px solid var(--border); background:var(--bg); color:var(--text);
+      font-family:inherit; font-size:0.95rem; transition:var(--transition); outline:none;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-glow);
+    }
+    .form-group textarea { min-height:120px; resize:vertical; }
+    .btn-submit {
+      background:var(--gradient); color:#fff; border:none;
+      padding:14px 32px; border-radius:40px; font-weight:700; font-size:1rem;
+      cursor:pointer; transition:var(--transition); display:inline-flex; align-items:center; gap:10px;
+    }
+    .btn-submit:hover { transform:scale(1.03); box-shadow:0 8px 30px var(--accent-glow); }
+    .btn-submit:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
+    .form-status { margin-top:16px; padding:12px 16px; border-radius:12px; display:none; }
+    .form-status.success { display:block; background:rgba(34,197,94,0.15); border:1px solid #22c55e; color:#22c55e; }
+    .form-status.error { display:block; background:rgba(239,68,68,0.15); border:1px solid #ef4444; color:#ef4444; }
+    .contact-info {
+      background:var(--surface-2); padding:28px 30px; border-radius:16px;
+      border:1px solid var(--border); display:flex; flex-direction:column; justify-content:center;
+    }
+    .contact-info h3 { font-size:1.2rem; margin-bottom:12px; }
+    .contact-info p { color:var(--text-muted); margin-bottom:20px; }
+    .contact-info .detail {
+      display:flex; align-items:center; gap:14px; margin-bottom:12px; color:var(--text);
+    }
+    .contact-info .detail i { color:var(--accent); width:24px; text-align:center; font-size:1.1rem; }
+
+    /* ── refs ── */
+    .ref-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:32px; }
+    .ref-card {
+      background:var(--surface-2); padding:20px 24px; border-radius:16px;
+      border:1px solid var(--border);
+    }
+    .ref-card .name { font-weight:700; font-size:1rem; }
+    .ref-card .title { color:var(--text-muted); font-size:0.85rem; }
+    .ref-card .contact { color:var(--text-muted); font-size:0.8rem; margin-top:6px; }
+    .ref-card .contact i { color:var(--accent); width:20px; }
+
+    /* ── declaration ── */
+    .declaration-box {
+      background:var(--surface-2); padding:24px 28px; border-radius:16px;
+      border:1px solid var(--border);
+      display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;
+      font-size:0.9rem; color:var(--text-muted); margin-bottom:20px;
+    }
+    .declaration-box .sign { color:var(--text); font-weight:700; margin-top:6px; }
+    .declaration-box .date { text-align:right; }
+
+    /* ── scroll top ── */
+    .scroll-top {
+      position:fixed; bottom:30px; right:30px;
+      background:var(--gradient); color:#fff; border:none;
+      width:50px; height:50px; border-radius:50%; font-size:1.4rem;
+      cursor:pointer; box-shadow:0 8px 30px var(--accent-glow);
+      transition:var(--transition);
+      opacity:0; transform:translateY(20px); pointer-events:none; z-index:999;
+    }
+    .scroll-top.visible { opacity:1; transform:translateY(0); pointer-events:all; }
+    .scroll-top:hover { transform:scale(1.1) translateY(-4px); }
+
+    /* ── responsive ── */
+    @media (max-width:960px) {
+      .hero { grid-template-columns:1fr; gap:24px; padding:24px; }
+      .hero-right { grid-template-columns:1fr 1fr; }
+      .skills-grid { grid-template-columns:1fr; }
+      .cert-grid { grid-template-columns:1fr; }
+      .ref-grid { grid-template-columns:1fr; }
+      .contact-section { grid-template-columns:1fr; }
+    }
+    @media (max-width:680px) {
+      body { padding:12px; }
+      .top-header { padding:12px 18px; border-radius:30px; flex-wrap:wrap; gap:12px; }
+      .nav-links { gap:16px; flex-wrap:wrap; }
+      .nav-links a { font-size:0.75rem; }
+      .hero-left h1 { font-size:2rem; }
+      .hero-right { grid-template-columns:1fr 1fr; gap:10px; }
+      .stat-number { font-size:1.8rem; }
+      .section-title { font-size:1.4rem; }
+      .timeline-item .card { padding:16px; }
+      .project-grid { grid-template-columns:1fr; }
+      .contact-form { padding:20px; }
+    }
+
+    /* ── utilities ── */
+    .fade-up { opacity:0; transform:translateY(30px); transition:opacity 0.8s ease, transform 0.8s ease; }
+    .fade-up.visible { opacity:1; transform:translateY(0); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- header -->
+  <header class="top-header glass">
+    <span class="logo"><i class="fas fa-code" style="background:var(--gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-right:8px;"></i>MASUM</span>
+    <ul class="nav-links">
+      <li><a href="#hero" class="active">Home</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <i class="fas fa-moon"></i>
+    </button>
+  </header>
+
+  <!-- hero -->
+  <section id="hero" class="hero fade-up visible">
+    <div class="hero-left">
+      <div class="avatar">
+        <img src="https://assets.about.me/background/users/j/i/m/jim.masum_gmail.com_1466748153_07.jpg" alt="Abdullah Al Masum" />
+      </div>
+      <h1>Abdullah Al <span>Masum</span></h1>
+      <div class="tagline"><i class="fas fa-bolt" style="margin-right:6px;"></i> Senior Additional Director · Logistics &amp; Sales Monitoring</div>
+      <p class="bio">6+ years driving operational excellence across logistics, sales automation, and business intelligence. Data-driven leader with a passion for process optimization.</p>
+      <div class="hero-contact">
+        <a href="tel:+8801773333223"><i class="fas fa-phone-alt"></i> +880 1773 333 223</a>
+        <a href="mailto:jim.masum@gmail.com"><i class="fas fa-envelope"></i> jim.masum@gmail.com</a>
+        <a href="https://linkedin.com/in/masumjim" target="_blank"><i class="fab fa-linkedin-in"></i> masumjim</a>
+        <a href="#"><i class="fas fa-map-pin"></i> Dhaka, BD</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-card"><div class="stat-number" data-count="6">0</div><div class="stat-label">+ Years Experience</div></div>
+      <div class="stat-card"><div class="stat-number" data-count="4">0</div><div class="stat-label">Companies</div></div>
+      <div class="stat-card"><div class="stat-number" data-count="12">0</div><div class="stat-label">+ Projects</div></div>
+      <div class="stat-card"><div class="stat-number" data-count="8">0</div><div class="stat-label">Certifications</div></div>
+    </div>
+  </section>
+
+  <!-- about -->
+  <section class="about-card glass fade-up">
+    <p><strong><i class="fas fa-quote-left" style="color:var(--accent); margin-right:8px;"></i></strong> Results-driven professional with 6+ years of experience in logistics, sales operations, and business intelligence within large-scale distribution networks. Currently serving as Senior Additional Director at Walton Hi-Tech Industries PLC, leading logistics and sales monitoring. Proven ability to leverage data and technology to improve operational efficiency and support strategic decision-making in corporate environments.</p>
+  </section>
+
+  <!-- experience -->
+  <section id="experience" class="fade-up">
+    <h2 class="section-title"><i class="fas fa-briefcase"></i> Experience Timeline</h2>
+    <div class="timeline">
+      <div class="timeline-item"><div class="card glass"><div class="card-header"><h3>Senior Additional Director</h3><span class="date">Mar 2023 – Present</span></div><div class="company">Walton Hi-Tech Industries PLC. · Dhaka</div><ul><li>Lead logistics operations and sales monitoring across nationwide distribution networks</li><li>Develop automated reporting systems to reduce manual workload and improve efficiency</li><li>Policy development, offer management, motivational allowances, and SOP analysis</li><li>Collaborate with sales, IT, and supply chain teams for operational alignment</li><li>Provide data-driven insights to support management decision-making</li></ul></div></div>
+      <div class="timeline-item"><div class="card glass"><div class="card-header"><h3>Senior Executive (Sales Operations)</h3><span class="date">Nov 2022 – Mar 2023</span></div><div class="company">Fair Electronics Limited · Dhaka</div><ul><li>Managed Samsung KNOX (MDM) system for enterprise device management</li><li>Generated business intelligence reports for performance tracking</li><li>Supported sales operations and reporting automation</li></ul></div></div>
+      <div class="timeline-item"><div class="card glass"><div class="card-header"><h3>Senior Deputy Assistant Director</h3><span class="date">Jan 2020 – Nov 2022</span></div><div class="company">Walton Hi-Tech Industries PLC. · Dhaka</div><ul><li>Managed sales administration and logistics coordination across distribution channels</li><li>Generated analytical reports for business planning and performance monitoring</li><li>Supported automation initiatives to improve reporting efficiency</li><li>Contributed to SOP development, policy development, and operational process improvements</li></ul></div></div>
+      <div class="timeline-item"><div class="card glass"><div class="card-header"><h3>Senior Executive (IT &amp; Systems)</h3><span class="date">Feb 2019 – Nov 2019</span></div><div class="company">River Communication Ltd. · Dhaka</div><ul><li>Managed web applications, servers, and network systems</li><li>Provided technical support and ensured system performance</li><li>Participated in software development and IT operations</li></ul></div></div>
+    </div>
+  </section>
+
+  <!-- skills -->
+  <section id="skills" class="fade-up">
+    <h2 class="section-title"><i class="fas fa-chart-pie"></i> Skills &amp; Proficiency</h2>
+    <div class="skills-grid">
+      <div class="glass" style="padding:24px 28px;">
+        <div class="skill-category"><div class="label"><span>Sales Operations</span><span>95%</span></div><div class="progress-track"><div class="progress-fill" data-width="95"></div></div></div>
+        <div class="skill-category"><div class="label"><span>Logistics Management</span><span>92%</span></div><div class="progress-track"><div class="progress-fill" data-width="92"></div></div></div>
+        <div class="skill-category"><div class="label"><span>Business Intelligence</span><span>88%</span></div><div class="progress-track"><div class="progress-fill" data-width="88"></div></div></div>
+        <div class="skill-category"><div class="label"><span>Data Visualization</span><span>85%</span></div><div class="progress-track"><div class="progress-fill" data-width="85"></div></div></div>
+        <div class="skill-category"><div class="label"><span>Team Leadership</span><span>90%</span></div><div class="progress-track"><div class="progress-fill" data-width="90"></div></div></div>
+        <div class="skill-category"><div class="label"><span>Web Development</span><span>75%</span></div><div class="progress-track"><div class="progress-fill" data-width="75"></div></div></div>
+      </div>
+      <div class="chart-container glass">
+        <h4 style="margin-bottom:12px; font-weight:600; font-size:0.95rem; color:var(--text-muted);"><i class="fas fa-radar" style="color:var(--accent); margin-right:8px;"></i>Core Competencies</h4>
+        <canvas id="radarChart" width="300" height="200"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- projects -->
+  <section id="projects" class="fade-up">
+    <h2 class="section-title"><i class="fas fa-folder-open"></i> Key Projects</h2>
+    <div class="project-grid">
+      <div class="project-card glass"><h4>E-Commerce Web App</h4><span class="tech">PHP · Magento · WooCommerce</span><p>Full-featured online store with payment gateway integration.</p></div>
+      <div class="project-card glass"><h4>Employee Relationship System</h4><span class="tech">Web-based</span><p>Streamlined HR processes and employee engagement tracking.</p></div>
+      <div class="project-card glass"><h4>Time Scheduling System</h4><span class="tech">Genetic Algorithm</span><p>Semi-automated university class scheduling optimizing resource usage.</p></div>
+      <div class="project-card glass"><h4>Home Automation (IoT)</h4><span class="tech">IoT · Embedded</span><p>Smart home control via mobile and voice commands.</p></div>
+      <div class="project-card glass"><h4>Digital ECG Monitoring</h4><span class="tech">IoT · Healthcare</span><p>Real-time ECG data transmission and alert system.</p></div>
+      <div class="project-card glass"><h4>Automated Toll System</h4><span class="tech">Web + IoT</span><p>RFID-based toll collection with live traffic analytics.</p></div>
+    </div>
+  </section>
+
+  <!-- certifications & languages -->
+  <section class="fade-up">
+    <div class="cert-grid">
+      <div>
+        <h2 class="section-title" style="margin-bottom:16px;"><i class="fas fa-certificate"></i> Certifications</h2>
+        <div class="cert-list glass">
+          <div class="cert-item"><span>KNOX Professional</span><span class="year">2023</span></div>
+          <div class="cert-item"><span>KNOX Associate</span><span class="year">2022</span></div>
+          <div class="cert-item"><span>Android Enterprise Associate</span><span class="year">2022</span></div>
+          <div class="cert-item"><span>Top-Up IT Training (Android)</span><span class="year">2018</span></div>
+          <div class="cert-item" style="border-bottom:0;"><span>ACM ICPC Participant</span><span class="year">2019</span></div>
+        </div>
+      </div>
+      <div>
+        <h2 class="section-title" style="margin-bottom:16px;"><i class="fas fa-language"></i> Languages</h2>
+        <div class="lang-bars glass">
+          <div class="lang-item"><span class="name">Bengali</span><div class="bar"><div class="fill" data-width="100"></div></div><span class="level">Native</span></div>
+          <div class="lang-item"><span class="name">English</span><div class="bar"><div class="fill" data-width="85"></div></div><span class="level">Professional</span></div>
+          <div class="lang-item"><span class="name">Hindi</span><div class="bar"><div class="fill" data-width="40"></div></div><span class="level">Beginner</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- contact -->
+  <section id="contact" class="fade-up">
+    <h2 class="section-title"><i class="fas fa-paper-plane"></i> Get in Touch</h2>
+    <div class="contact-section">
+      <div class="contact-form glass">
+        <h3>Send a Message</h3>
+        <p class="sub">I'll get back to you as soon as possible.</p>
+        <form id="contactForm" action="https://formspree.io/f/masum53713@gmail.com" method="POST">
+          <div class="form-group"><label for="name">Your Name</label><input type="text" id="name" name="name" placeholder="John Doe" required /></div>
+          <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" placeholder="john@example.com" required /></div>
+          <div class="form-group"><label for="subject">Subject</label><input type="text" id="subject" name="subject" placeholder="Project inquiry" required /></div>
+          <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" placeholder="Tell me about your project..." required></textarea></div>
+          <button type="submit" class="btn-submit" id="submitBtn"><i class="fas fa-paper-plane"></i> Send Message</button>
+          <div id="formStatus" class="form-status"></div>
+        </form>
+      </div>
+      <div class="contact-info glass">
+        <h3>Contact Information</h3>
+        <p>Feel free to reach out via email or phone — I'm always open to discussing new opportunities, collaborations, or just a friendly chat.</p>
+        <div class="detail"><i class="fas fa-envelope"></i> <a href="mailto:jim.masum@gmail.com">jim.masum@gmail.com</a></div>
+        <div class="detail"><i class="fas fa-phone-alt"></i> <a href="tel:+8801773333223">+880 1773 333 223</a></div>
+        <div class="detail"><i class="fab fa-linkedin-in"></i> <a href="https://linkedin.com/in/masumjim" target="_blank">linkedin.com/in/masumjim</a></div>
+        <div class="detail"><i class="fas fa-map-pin"></i> Dhaka, Bangladesh</div>
+      </div>
+    </div>
+  </section>
+
+
+
+  <!-- declaration -->
+  <section class="fade-up">
+    <div class="declaration-box glass">
+      <div>
+        <i class="fas fa-gavel" style="color:var(--accent); margin-right:12px;"></i>
+        I hereby declare that all the above-mentioned information is true and accurate to the best of my knowledge.
+        <div class="sign">Abdullah-Al-Masum</div>
+      </div>
+      <div class="date">Dhaka, Bangladesh<br />1<sup>st</sup> April, 2026</div>
+    </div>
+  </section>
+
+  <footer style="text-align:center; font-size:0.75rem; color:var(--text-muted); padding:24px 0 8px; border-top:1px solid var(--border);">
+    <i class="fas fa-code" style="color:var(--accent);"></i> Designed with precision · Abdullah Al Masum · <span id="year"></span>
+  </footer>
+
+</div>
+
+<!-- scroll top -->
+<button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const icon = themeToggle.querySelector('i');
+  const currentTheme = localStorage.getItem('theme') || 'dark';
+  if (currentTheme === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    icon.classList.replace('fa-moon', 'fa-sun');
+  }
+  themeToggle.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+    if (isDark) {
+      document.documentElement.setAttribute('data-theme', 'light');
+      icon.classList.replace('fa-moon', 'fa-sun');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      icon.classList.replace('fa-sun', 'fa-moon');
+      localStorage.setItem('theme', 'dark');
+    }
+  });
+
+  // Scroll spy
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 150;
+      if (window.scrollY >= top) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+    });
+    const btn = document.getElementById('scrollTopBtn');
+    if (window.scrollY > 400) btn.classList.add('visible');
+    else btn.classList.remove('visible');
+  });
+
+  document.getElementById('scrollTopBtn').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Smooth nav
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Animated counters
+  const counters = document.querySelectorAll('.stat-number');
+  const observerCount = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const target = parseInt(el.getAttribute('data-count'));
+        if (!el.classList.contains('counted')) {
+          el.classList.add('counted');
+          let current = 0;
+          const increment = Math.ceil(target / 50);
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) { current = target; clearInterval(timer); }
+            el.textContent = current + (el.getAttribute('data-count') == 6 ? '+' : '');
+          }, 30);
+        }
+      }
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => observerCount.observe(c));
+
+  // Progress bars
+  const progressBars = document.querySelectorAll('.progress-fill, .fill');
+  const observerProgress = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const width = el.getAttribute('data-width');
+        if (width) el.style.width = width + '%';
+      }
+    });
+  }, { threshold: 0.4 });
+  progressBars.forEach(bar => observerProgress.observe(bar));
+
+  // Fade up
+  const fadeElements = document.querySelectorAll('.fade-up');
+  const observerFade = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+  fadeElements.forEach(el => observerFade.observe(el));
+
+  // Radar chart
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+  const textColor = isDark ? '#94a3b8' : '#475569';
+  const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)';
+  let chartInstance = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Sales Ops', 'Logistics', 'BI', 'Data Viz', 'Leadership', 'Web Dev'],
+      datasets: [{
+        label: 'Proficiency',
+        data: [95, 92, 88, 85, 90, 75],
+        backgroundColor: 'rgba(56, 189, 248, 0.2)',
+        borderColor: '#38bdf8',
+        borderWidth: 2,
+        pointBackgroundColor: '#38bdf8',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 1,
+        pointRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        r: {
+          angleLines: { color: gridColor },
+          grid: { color: gridColor },
+          pointLabels: { color: textColor, font: { size: 10, weight: '500' } },
+          ticks: { display: false, stepSize: 20 },
+          min: 0, max: 100,
+        }
+      }
+    }
+  });
+
+  // Rebuild chart on theme toggle
+  themeToggle.addEventListener('click', function() {
+    if (chartInstance) chartInstance.destroy();
+    const isDarkNow = document.documentElement.getAttribute('data-theme') !== 'light';
+    const txtColor = isDarkNow ? '#94a3b8' : '#475569';
+    const gridCol = isDarkNow ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)';
+    const newCtx = document.getElementById('radarChart').getContext('2d');
+    chartInstance = new Chart(newCtx, {
+      type: 'radar',
+      data: {
+        labels: ['Sales Ops', 'Logistics', 'BI', 'Data Viz', 'Leadership', 'Web Dev'],
+        datasets: [{
+          label: 'Proficiency',
+          data: [95, 92, 88, 85, 90, 75],
+          backgroundColor: 'rgba(56, 189, 248, 0.2)',
+          borderColor: '#38bdf8',
+          borderWidth: 2,
+          pointBackgroundColor: '#38bdf8',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 1,
+          pointRadius: 4,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          r: {
+            angleLines: { color: gridCol },
+            grid: { color: gridCol },
+            pointLabels: { color: txtColor, font: { size: 10, weight: '500' } },
+            ticks: { display: false, stepSize: 20 },
+            min: 0, max: 100,
+          }
+        }
+      }
+    });
+  });
+
+  // Contact form
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  const submitBtn = document.getElementById('submitBtn');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    status.className = 'form-status';
+    status.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    const data = new FormData(form);
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        status.className = 'form-status success';
+        status.textContent = '✅ Message sent successfully! I\'ll get back to you soon.';
+        status.style.display = 'block';
+        form.reset();
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (error) {
+      status.className = 'form-status error';
+      status.textContent = '❌ Oops! Something went wrong. Please try again or email me directly.';
+      status.style.display = 'block';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    }
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+});
+</script>
+
+</body>
+</html>
